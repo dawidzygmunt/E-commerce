@@ -1,9 +1,11 @@
 import { MainNav } from "./main-nav"
+import StoreSwitcher from "./store-switcher"
 
 export const Navbar = () => {
   return (
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
+        <StoreSwitcher />
         <div>
           This is a component navbar
         </div>
