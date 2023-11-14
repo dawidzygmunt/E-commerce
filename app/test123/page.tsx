@@ -1,16 +1,24 @@
-"use client";
+"use client"
 
-import { Modal } from "@/components/ui/modal";
-import { useStoreModal } from "@/hooks/use-store-modal";
-import { useEffect } from "react";
+import { useSession } from 'next-auth/react'
+import React from 'react'
 
+export default function Test123() {
+  const { data: session, status } = useSession();
+  console.log(session);
+  
+  if (session?.user) {
+    return (
+      <div>
+        {session?.user.name}
+      </div>
+    )
+  }
 
-const SetupPage = () => {
   return (
-    <div className="p-4">
-      elo
+    <div>
+      <p>Test123</p>
     </div>
-  );
+  )
 }
 
-export default SetupPage

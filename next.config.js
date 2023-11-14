@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/e-commerce',
-  assetPrefix: '/e-commerce/',
+  // basePath: '/e-commerce',
 }
 
 module.exports = nextConfig

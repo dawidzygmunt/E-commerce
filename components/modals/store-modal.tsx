@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-
+import { signOut } from "next-auth/react"
 import { Modal } from "../ui/modal";
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,7 @@ export const StoreModal = () => {
 
       const response = await axios.post('/api/stores', values)
 
-      toast.success("Sklep utworzony")
+      window.location.assign(`/${response.data.id}`)
       console.log("utworzono sklep");
       
       
@@ -63,6 +63,7 @@ export const StoreModal = () => {
 
       <div>
         <div className="space-y-4 py-2 pb-4">
+        <button onClick={() => signOut()}>Sign out</button>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField

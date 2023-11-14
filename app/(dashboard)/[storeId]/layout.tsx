@@ -1,7 +1,9 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { use } from "react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+
+import { Navbar } from "@/components/navbar";
 
 export default async function DashboardLayout({
   children,
@@ -10,10 +12,14 @@ export default async function DashboardLayout({
   children: React.ReactNode;
   params: { storeId: string }
 }) {
-  const { userId } = auth()
+
+  const session = await getServerSession(authOptions)
+  const userId = session?.user?.email
+  console.log('to jest store id: ' + params.storeId);
+  
 
   if (!userId) {
-    redirect('/sign-in')
+    redirect('/sign-in');
   }
 
   const store = await prismadb.store.findFirst({
@@ -30,9 +36,9 @@ export default async function DashboardLayout({
   return (
     <>
       <div>
-        This will be a Navbar
+        <Navbar />
         {children}
       </div>
     </>
-  )
-}
+  );
+};
