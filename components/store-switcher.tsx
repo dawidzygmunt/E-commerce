@@ -77,7 +77,7 @@ export default function StoreSwitcher({
                         "ml-auto h-4 w-4",
                         currentStore?.value === store.value
                           ? "opacity-100"
-                          : "opcaity-0"
+                          : "opacity-0"
                       )}
                     />
                   </CommandItem>
@@ -102,7 +102,6 @@ export default function StoreSwitcher({
           </Command>
         </PopoverContent>
       </Popover>
-      Store Switcher
     </div>
   )
 }
