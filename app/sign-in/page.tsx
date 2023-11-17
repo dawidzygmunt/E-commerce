@@ -19,7 +19,6 @@ export default function LoginPage() {
       redirect: true,
       callbackUrl: '/',
     });
-    // router.push("/test123")
   }
   return (
     <>
@@ -94,9 +93,9 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
+            Have not an account yet?{' '}
             <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
+              Sign up
             </a>
           </p>
         </div>
