@@ -1,20 +1,13 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options"
-import { useSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
-import { log } from "console";
 
 export async function POST(
   req: Request
 ) {
   try {
-    // const { data: session } = useSession();
-    // if (!(session?.user)) {
-    //   return new NextResponse('Nie zalogowano!', { status: 400 })
-    // }
-
     const session = await getServerSession(authOptions)
     console.log(session);
     
