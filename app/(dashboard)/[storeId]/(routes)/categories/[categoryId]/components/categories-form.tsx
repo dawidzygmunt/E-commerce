@@ -79,8 +79,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       toast.success(toastMessage)
     } catch (error) {
       toast.error("Somethink sent wrong")
-      // console.log(error);
-      
     } finally {
       setLoading(false)
     }

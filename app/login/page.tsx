@@ -1,23 +1,46 @@
 "use client"
 
-import { FormEvent, useState } from "react"
-import { useRouter } from "next/navigation"
+import { FormEvent, useEffect, useState } from "react"
 import { signIn } from "next-auth/react"
+import { getSession } from "next-auth/react"
+import { redirect, useRouter } from "next/navigation"
+import { getServerSession } from "next-auth"
 
 
 export default function LoginPage() {
-  const router = useRouter();
+
+
+  const router = useRouter()
+  
+  
+  useEffect(() => {
+    const ifUserLogged = async () => {
+      const session = await getSession()
+      const userId = session?.user?.email
+      console.log(userId);
+
+      if (userId) {
+        console.log('jest');
+        router.push('/')
+      } else {
+        console.log('nie ma');
+      }
+    }
+    ifUserLogged()
+  }, [])
+
+
   const [data, setData] = useState({
     email: "" as string,
     password: "" as string,
   });
-  
+
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
     signIn('credentials', {
       ...data,
       redirect: true,
-      callbackUrl: '/',
+      callbackUrl: '/e-commerce',
     });
   }
   return (

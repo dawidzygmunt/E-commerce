@@ -9,8 +9,10 @@ export default function Test123() {
   
   if (session?.user) {
     return (
-      <div>
-        {session?.user.name}
+      <div className='flex flex-col items-center h-full w-full pt-20'>
+        <h1 className='font-bold text-2xl '>{session?.user.name}</h1>
+        <p>{session?.user.email}</p>
+
       </div>
     )
   }

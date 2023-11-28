@@ -15,12 +15,18 @@ interface Pomoc {
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/sign-in',
-    // signOut: '/auth/signout',
+    signIn: '/e-commerce/login',
+    // signOut: '/',
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
+  // callbacks: {
+  //   async redirect({ url, baseUrl }) {
+  //     return baseUrl
+  //   },
+
+  // },
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -50,12 +56,15 @@ export const authOptions: NextAuthOptions = {
           }
         })
         if (!user) {
+          console.log('nie ma takiego uzytkownika');
           return null
+          
         }
         
         //Check to see if the passwords match
         const passwordsMatch = await bcrypt.compare(credentials.password, user.hashedPassword);
         if (!passwordsMatch) {
+          console.log('nie ma takiego hasla');
           return null;
         }
 
@@ -67,6 +76,7 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  debug: true,
+  // debug: process.env.NODE_ENV === "development",
 }
 
