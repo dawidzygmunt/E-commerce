@@ -11,8 +11,8 @@ export default function LoginPage() {
 
 
   const router = useRouter()
-  
-  
+
+
   useEffect(() => {
     const ifUserLogged = async () => {
       const session = await getSession()
@@ -20,10 +20,7 @@ export default function LoginPage() {
       console.log(userId);
 
       if (userId) {
-        console.log('jest');
         router.push('/')
-      } else {
-        console.log('nie ma');
       }
     }
     ifUserLogged()
@@ -117,9 +114,9 @@ export default function LoginPage() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Have not an account yet?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <span onClick={() => router.push('/register')} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Sign up
-            </a>
+            </span>
           </p>
         </div>
       </div>
