@@ -6,7 +6,6 @@ import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
 import { Heading } from "@/components/ui/heading";
@@ -24,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
+import axiosInstance from "@/axiosconfig";
 
 interface SettingsFormProps {
   ininitalData: Store;
@@ -53,7 +53,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
   const onSubmit = async (data: SettingsFormValues) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data)
+      await axiosInstance.patch(`/api/stores/${params.storeId}`, data)
       router.refresh()
       toast.success("Store updated")
     } catch (error) {
@@ -65,7 +65,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 
   const onDelete = async () => {
     try {
-      await axios.delete(`/api/stores/${params.storeId}`)
+      await axiosInstance.delete(`/api/stores/${params.storeId}`)
       router.refresh()
       router.push('/')
       toast.success("Store deleted")

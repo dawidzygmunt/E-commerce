@@ -1,17 +1,17 @@
 "use client"
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { BillboardColum } from "./columns"
+import { ProductColumn } from "./columns"
 import { Button } from "@/components/ui/button"
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
-import axios from "axios"
 import { AlertModal } from "@/components/modals/alert-modal"
+import axiosInstance from "@/axiosconfig"
 
 interface CellActionProps {
-  data: BillboardColum
+  data: ProductColumn
 };
 
 
@@ -32,7 +32,7 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
+      await axiosInstance.delete(`/api/${params.storeId}/billboards/${data.id}`)
       router.refresh()
       toast.success("Billboard deleted")
     } catch (error) {

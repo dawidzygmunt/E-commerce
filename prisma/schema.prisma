@@ -131,8 +131,8 @@ model Product {
   id         String   @id @default(uuid())
   storeId    String
   store      Store    @relation("StoreToProduct", fields: [storeId], references: [id])
-  catagoryId String
-  category   Category @relation("CategoryToProduct", fields: [catagoryId], references: [id])
+  categoryId String
+  category   Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name       String
   price      Decimal
   isFeatured Boolean  @default(false)
@@ -146,7 +146,7 @@ model Product {
   updatedAt  DateTime @updatedAt
 
   @@index([storeId])
-  @@index([catagoryId])
+  @@index([categoryId])
   @@index([sizeId])
   @@index([colorId])
 }

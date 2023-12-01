@@ -15,7 +15,7 @@ export default function Example() {
 
   const registerUser = async (e: FormEvent) => {
     e.preventDefault()
-    const response = await fetch('/api/register', {
+    const response = await fetch('/e-commerce/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

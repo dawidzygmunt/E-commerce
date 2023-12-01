@@ -6,7 +6,6 @@ import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
 import { Heading } from "@/components/ui/heading";
@@ -29,6 +28,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import axiosInstance from "@/axiosconfig";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -70,9 +70,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
       if (ininitalData) {
-        await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data)
+        await axiosInstance.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data)
       } else {
-        await axios.post(`/api/${params.storeId}/categories`, data)
+        await axiosInstance.post(`/api/${params.storeId}/categories`, data)
       }
       router.refresh()
       router.push(`/${params.storeId}/categories`)
@@ -87,7 +87,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`)
+      await axiosInstance.delete(`/api/${params.storeId}/categories/${params.categoryId}`)
       router.refresh()
       router.push(`/${params.storeId}/categories`)
       toast.success("Category deleted")

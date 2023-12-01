@@ -6,8 +6,8 @@ import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import axiosInstance from "@/axiosconfig";
 
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
@@ -62,15 +62,15 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     try {
       setLoading(true);
       if (ininitalData) {
-        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data)
+        await axiosInstance.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data)
       } else {
-        await axios.post(`/api/${params.storeId}/billboards`, data)
+        await axiosInstance.post(`/api/${params.storeId}/billboards`, data)
       }
       router.refresh()
       router.push(`/${params.storeId}/billboards`)
       toast.success(toastMessage)
     } catch (error) {
-      toast.error("Somethink sent wrong")
+      toast.error("Something sent wrong")
     } finally {
       setLoading(false)
     }
@@ -79,7 +79,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
+      await axiosInstance.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
       router.refresh()
       router.push(`/${params.storeId}/billboards`)
       toast.success("Billboard deleted")

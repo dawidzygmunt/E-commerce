@@ -6,7 +6,6 @@ import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
 import { Heading } from "@/components/ui/heading";
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
+import axiosInstance from "@/axiosconfig";
 
 
 
@@ -66,9 +66,9 @@ export const SizeForm: React.FC<SizeFormProps> = ({
     try {
       setLoading(true);
       if (ininitalData) {
-        await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data)
+        await axiosInstance.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data)
       } else {
-        await axios.post(`/api/${params.storeId}/sizes`, data)
+        await axiosInstance.post(`/api/${params.storeId}/sizes`, data)
       }
       router.refresh()
       router.push(`/${params.storeId}/sizes`)
@@ -83,7 +83,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`)
+      await axiosInstance.delete(`/api/${params.storeId}/sizes/${params.sizeId}`)
       router.refresh()
       router.push(`/${params.storeId}/sizes`)
       toast.success("Size deleted")

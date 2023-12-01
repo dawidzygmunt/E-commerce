@@ -5,6 +5,7 @@ import { ModalProvider } from '@/providers/modal-provider'
 import { ToasterProvider } from '@/providers/toast-provider'
 import { ProviderSession } from '@/providers/sesion-provider'
 
+
 import './globals.css'
 
 
@@ -20,6 +21,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
+  console.log(process.env.AXIOS_BASE_URL);
   return (
     <ProviderSession>
       <html lang="en">

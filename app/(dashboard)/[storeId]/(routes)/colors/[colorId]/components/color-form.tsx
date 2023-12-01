@@ -6,7 +6,6 @@ import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
 import { Heading } from "@/components/ui/heading";
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
+import axiosInstance from "@/axiosconfig";
 
 
 
@@ -68,9 +68,9 @@ export const ColorForm: React.FC<ColorFormProps> = ({
     try {
       setLoading(true);
       if (ininitalData) {
-        await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data)
+        await axiosInstance.patch(`/api/${params.storeId}/colors/${params.colorId}`, data)
       } else {
-        await axios.post(`/api/${params.storeId}/colors`, data)
+        await axiosInstance.post(`/api/${params.storeId}/colors`, data)
       }
       router.refresh()
       router.push(`/${params.storeId}/colors`)
@@ -85,7 +85,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`)
+      await axiosInstance.delete(`/api/${params.storeId}/colors/${params.colorId}`)
       router.refresh()
       router.push(`/${params.storeId}/colors`)
       toast.success("Color deleted")
