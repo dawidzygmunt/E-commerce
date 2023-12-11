@@ -63,7 +63,6 @@ export const StoreModal = () => {
 
       <div>
         <div className="space-y-4 py-2 pb-4">
-        <button onClick={() => signOut()}>Sign out</button>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
