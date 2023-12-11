@@ -67,15 +67,15 @@ export async function GET(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const billboards = await prismadb.billboard.findMany({
+    const categoires = await prismadb.category.findMany({
       where: {
         storeId: params.storeId
       }
     })
-    return NextResponse.json(billboards);
+    return NextResponse.json(categoires);
 
   } catch (error) {
-    console.log('[BILLBOARDS]', error);
+    console.log('[CATEGORIRES_GET]', error);
     return new NextResponse("Internal error ", { status: 500 })
   }
 }

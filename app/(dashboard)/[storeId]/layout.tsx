@@ -15,7 +15,6 @@ export default async function DashboardLayout({
 
   const session = await getServerSession(authOptions)
   const userId = session?.user?.email
-  console.log('to jest store id: ' + params.storeId);
   
 
   if (!userId) {

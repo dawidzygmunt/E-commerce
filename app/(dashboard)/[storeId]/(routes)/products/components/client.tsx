@@ -33,7 +33,7 @@ export const ProductClient:React.FC<ProductClientProps> = ({
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={data} serachkey="label"/>
+      <DataTable columns={columns} data={data} serachkey="name"/>
       <Heading title='API' description='Api calls for Products'/>
       <Separator />
       <ApiList entityName='products' entityIdName="productsId" />
