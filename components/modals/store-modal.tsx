@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { error } from "console";
+import axiosInstance from "@/axiosconfig";
 
 
 
@@ -37,14 +38,14 @@ export const StoreModal = () => {
     try {
       setLoading(true)
 
-      const response = await axios.post('/api/stores', values)
+      const response = await axiosInstance.post('/api/stores', values)
 
       window.location.assign(`/${response.data.id}`)
-      console.log("utworzono sklep");
+      console.log("Store created");
       
       
     } catch (error) {
-      toast.error("Coś poszło nie tak")
+      toast.error("Something went wrong")
       console.log(error);
       
     } finally {
