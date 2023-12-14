@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod"
-import axios from "axios";
 import { useForm } from "react-hook-form"
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -40,7 +39,7 @@ export const StoreModal = () => {
 
       const response = await axiosInstance.post('/api/stores', values)
 
-      window.location.assign(`/${response.data.id}`)
+      window.location.assign(`/e-commerce/${response.data.id}`)
       console.log("Store created");
       
       
@@ -61,7 +60,6 @@ export const StoreModal = () => {
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >
-
       <div>
         <div className="space-y-4 py-2 pb-4">
           <Form {...form}>
@@ -88,9 +86,9 @@ export const StoreModal = () => {
                   disabled={loading}
                   variant="outline" 
                   onClick={storeModal.onClose}>
-                    Anuluj
+                    Back
                 </Button>
-                <Button type="submit" disabled={loading}>Kontynuuj</Button>
+                <Button type="submit" disabled={loading}>Create</Button>
               </div>
             </form>
           </Form>

@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react"
 import { getSession } from "next-auth/react"
 import { redirect, useRouter } from "next/navigation"
 import { getServerSession } from "next-auth"
+import { HelpCircle } from "lucide-react"
 
 
 export default function LoginPage() {
@@ -53,8 +54,16 @@ export default function LoginPage() {
             Sign in to your account
           </h2>
         </div>
+        <div className="flex flex-col items-center justify-center mt-2">
+          <div className="text-left border p-3 rounded-lg text-gray-600 relative">
+            <HelpCircle className="absolute top- left-0 w-[20px] h-[20px] -translate-x-2 -translate-y-5" />
+            <p>Login: admin@gmail.com</p>
+            <p>Password: root</p>
+          </div>
+        </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+
+        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
           {/* Tutaj zaczyna się form */}
           <form className="space-y-6" onSubmit={loginUser}>
             <div>
@@ -112,7 +121,7 @@ export default function LoginPage() {
             </div>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 text-center text-sm text-gray-500 hover:cursor-pointer">
             Have not an account yet?{' '}
             <span onClick={() => router.push('/register')} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Sign up
