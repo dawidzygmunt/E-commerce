@@ -7,16 +7,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-interface Pomoc {
-  username: string;
-  password: string;
-  email: string;
-}
-
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/e-commerce/login',
-    signOut: '/e-commerce',
+    signIn: '/login',
+    signOut: '/',
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)

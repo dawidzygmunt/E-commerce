@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from "react"
 import { signIn } from "next-auth/react"
 import { getSession } from "next-auth/react"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { HelpCircle } from "lucide-react"
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
     signIn('credentials', {
       ...data,
       redirect: true,
-      callbackUrl: '/e-commerce',
+      callbackUrl: '/',
     });
   }
   return (

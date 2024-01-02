@@ -44,8 +44,6 @@ export async function POST(request: Request) {
 
 
 } catch (error) {
-  return new NextResponse('Internal blad Error', { status: 500 });
-  console.log(error);
-  
+  return new NextResponse('Internal Error', { status: 500 });  
 }
 }

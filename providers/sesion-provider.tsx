@@ -10,7 +10,8 @@ interface ProviderProps {
 
 export const ProviderSession: FC<ProviderProps> = ({ children }) => {
   return (
-    <SessionProvider basePath='/e-commerce/api/auth'>
+    // basePath='/e-commerce/api/auth'
+    <SessionProvider>
       {children}
     </SessionProvider>
   )
