@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ecommerce CMS - Dawid Zygmunt
 
-## Getting Started
+## Opis
 
-First, run the development server:
+Ecommerce CMS to aplikacja internetowa, która umożliwia efektywne zarządzanie treścią sklepów internetowych. Projekt wykorzystuje technologie takie jak [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/), [Prisma](https://www.prisma.io/) oraz [MySQL](https://www.mysql.com/). Celem aplikacji jest usprawnienie procesu zarządzania zawartością e-commerce, z naciskiem na prostotę obsługi i intuicyjność.
+
+## Wymagania Systemowe
+
+Aby korzystać z Ecommerce CMS, upewnij się, że na Twoim środowisku zainstalowane są:
+
+- [Node.js](https://nodejs.org/) (w wersji v18.16.1 lub nowszej)
+- [Prisma CLI](https://www.prisma.io/docs/getting-started/installation-prisma-cli) (do obsługi bazy danych)
+
+## Instalacja
+
+1. Sklonuj repozytorium na swój lokalny komputer.
+   ```
+   git clone git@github.com:dawidzygmunt/E-commerce.git
+   ```
+
+2. Przejdź do katalogu projektu.
+   ```
+   cd E-commerce
+   ```
+
+3. Zainstaluj zależności.
+   ```
+   npm install
+   ```
+
+4. Uruchom migracje bazy danych przy użyciu Prisma CLI.
+   ```
+   npx prisma migrate dev
+   ```
+
+## Konfiguracja
+
+1. Skonfiguruj połączenie z bazą danych w pliku `.env`, korzystając z przykładowego pliku `.env.example`.
+
+## Uruchamianie
+
+Uruchom projekt za pomocą poniższej komendy:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Otwórz przeglądarkę i przejdź do `http://localhost:3000`, aby korzystać z Ecommerce CMS.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Dokumentacja
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Dokumentacja projektu znajduje się w katalogu `docs`. Przeczytaj pliki dokumentacji, aby zaznajomić się z dostępnymi funkcjami i ich użyciem.
 
-## Learn More
+## Zgłaszanie Błędów
 
-To learn more about Next.js, take a look at the following resources:
+Jeśli znajdziesz błąd lub masz propozycję ulepszenia, zgłoś to, tworząc nowe zgłoszenie w zakładce "Issues" tego repozytorium.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Autorzy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Dawid Zygmunt (dawid.zygmunt86@gmail.com)
 
-## Deploy on Vercel
+## Licencja
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Ten projekt jest objęty licencją MIT. Zobacz plik LICENSE.md, aby uzyskać więcej informacji.
