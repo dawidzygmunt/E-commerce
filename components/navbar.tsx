@@ -7,6 +7,8 @@ import { redirect, useRouter } from "next/navigation"
 import prismadb from "@/lib/prismadb"
 import { UserButton } from "./user-button"
 import { Button } from "./ui/button"
+import { ModeToggle } from "./ui/theme-toggle"
+import GoToStoreButton from "./nav-go-to-store"
 
 
 export const Navbar = async () => {
@@ -33,6 +35,10 @@ export const Navbar = async () => {
         </div>
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
+          
+          <GoToStoreButton />
+          <ModeToggle />
+          
           {session?.user ? (
             <UserButton />
           ) : (

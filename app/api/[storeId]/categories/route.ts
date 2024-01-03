@@ -11,7 +11,6 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions)
-    console.log(session);
 
 
     const userId = session?.user?.email

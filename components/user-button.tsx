@@ -21,7 +21,7 @@ export const UserButton = () => {
           <DropdownMenuLabel>
             Actions
           </DropdownMenuLabel>
-          <DropdownMenuItem onClick={()=>router.push('/test123')}>
+          <DropdownMenuItem onClick={()=>router.push('/account')}>
             <User className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
