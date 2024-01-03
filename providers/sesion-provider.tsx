@@ -9,9 +9,11 @@ interface ProviderProps {
 }
 
 export const ProviderSession: FC<ProviderProps> = ({ children }) => {
+  console.log(process.env.NEXTAUTH_URL);
+  
   return (
     // basePath='/e-commerce/api/auth'
-    <SessionProvider>
+    <SessionProvider basePath="/e-commerce/api/auth">
       {children}
     </SessionProvider>
   )

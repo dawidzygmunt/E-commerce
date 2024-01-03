@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { ModalProvider } from '@/providers/modal-provider'
 import { ToasterProvider } from '@/providers/toast-provider'
 import { ProviderSession } from '@/providers/sesion-provider'
+import { SessionProvider } from "next-auth/react"
 
 
 import './globals.css'
@@ -24,7 +25,7 @@ export default function RootLayout({
 }) {
   
   return (
-    <ProviderSession>
+    <ProviderSession >
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider

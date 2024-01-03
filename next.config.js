@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // basePath: '/e-commerce123',
+  basePath: process.env.BASE_PATH,
   images: {
     domains: [
       "res.cloudinary.com"

@@ -14,6 +14,7 @@ const AccountSettings = async () => {
   const session = await getServerSession(authOptions)
   const userId = session?.user?.email
 
+
   if (!userId) {
     return new NextResponse("Unatuhicated", { status: 401 })
   }
@@ -36,7 +37,7 @@ const AccountSettings = async () => {
                   <p>Brak</p>
                 ) : (
                   <Image
-                    src="/photo.png"
+                    src={`${process.env.BASE_PATH}/photo1.png`}
                     alt='avatar'
                     width={100}
                     height={100}

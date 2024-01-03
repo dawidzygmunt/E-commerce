@@ -1,8 +1,9 @@
 import axios from "axios";
 
 
-const baseURL = ''
-console.log(process.env.AXIOS_BASE_URL);
+const baseURL = '/e-commerce'
+console.log(process.env.BASE_PATH)
+
 
 
 
