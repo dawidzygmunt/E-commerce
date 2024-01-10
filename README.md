@@ -4,6 +4,9 @@
 
 Ecommerce CMS to aplikacja internetowa, która umożliwia efektywne zarządzanie treścią sklepów internetowych. Projekt wykorzystuje technologie takie jak [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/), [Prisma](https://www.prisma.io/) oraz [MySQL](https://www.mysql.com/). Celem aplikacji jest usprawnienie procesu zarządzania zawartością e-commerce, z naciskiem na prostotę obsługi i intuicyjność.
 
+## Live
+Zobacz Demo: https://dawidzygmuntdev.pl/e-commerce
+
 ## Wymagania Systemowe
 
 Aby korzystać z Ecommerce CMS, upewnij się, że na Twoim środowisku zainstalowane są:
