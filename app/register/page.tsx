@@ -1,121 +1,149 @@
-"use client"
+"use client";
 
-import { FormEvent, useState } from "react"
-import { useRouter } from "next/navigation"
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { userInfo } from "os";
 
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(3, {
+    message: "Password must be at least 3 characters.",
+  }),
+  repeatPassword: z.string().min(3, {
+    message: "Password must be at least 3 characters.",
+  }),
+});
 
+export default function Register() {
+  const router = useRouter();
 
-export default function Example() {
-  const router = useRouter()
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  })
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const registerUser = async (e: FormEvent) => {
-    e.preventDefault()
-    const response = await fetch('/e-commerce/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ data }),
-    })
-    const userInfo = await response.json()
-    console.log(userInfo);
-    router.push('/login')
-    
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    try {
+      const response = axios.post("/e-commerce/api/register", {
+        data: values,
+      });
+      console.log(userInfo);
+      router.push("/login");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
-    <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Register for an account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          {/* form starts here */}
-          <form className="space-y-6" onSubmit={registerUser}>
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete=""
-                  required
-                  onChange={(e) => { setData({ ...data, name: e.target.value }) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  onChange={(e) => { setData({ ...data, email: e.target.value }) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  Password
-                </label>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  onChange={(e) => { setData({ ...data, password: e.target.value }) }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    <div className="w-full min-h-screen flex justify-center mt-32">
+      <div>
+        <Card className="pt-6 min-w-[450px]">
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-5"
               >
-                Register
-              </button>
-            </div>
-          </form>
-        </div>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="repeatPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter confrim password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="terms2" required />
+                  <label
+                    htmlFor="terms2"
+                    className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    I accept the{" "}
+                    <Link
+                      href={"/conditions"}
+                      className="font-bold text-blue-600 hover:underline"
+                    >
+                      Terms and Conditions
+                    </Link>
+                  </label>
+                </div>
+
+                <Button className="mt-6" type="submit">
+                  Create an account
+                </Button>
+
+                <div className="flex justify-center text-sm">
+                  <label htmlFor="">
+                    Already have an account?{" "}
+                    <Link
+                      href={"/login"}
+                      className="text-blue-600 font-bold hover:underline"
+                    >
+                      Login here
+                    </Link>
+                  </label>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
-    </>
-  )
+    </div>
+  );
 }

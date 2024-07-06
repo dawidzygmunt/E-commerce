@@ -1,49 +1,40 @@
-
-import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
-const bcrypt = require('bcrypt')
+import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
+const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, password } = body.data;
+    const { email, password } = body.data;
     console.log(body.data);
 
-    if (!name || !email || !password) {
-      return new NextResponse('Missing data', { status: 400 });
+    if (!email || !password) {
+      return new NextResponse("Missing data", { status: 400 });
     }
 
     const exist = await prisma.user.findUnique({
       where: {
-        email: email
-      }
-  
-    })
-  
-    if (exist) {
-      return new NextResponse("User already exists", { status: 400 })
-    }
-  
-  
-    const hashedPassword = await bcrypt.hash(password, 10);
-  
-  
-  
-  
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        hashedPassword
-      }
+        email: email,
+      },
     });
 
-    return NextResponse.json(user)
+    if (exist) {
+      return new NextResponse("User already exists", { status: 400 });
+    }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-} catch (error) {
-  return new NextResponse('Internal Error', { status: 500 });  
-}
+    const user = await prisma.user.create({
+      data: {
+        email,
+        hashedPassword,
+      },
+    });
+
+    return NextResponse.json(user);
+  } catch (error) {
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }
