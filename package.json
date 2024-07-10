@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "syncdb && next start",
-    "syncdb": "npx prima migrate dev",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
