@@ -5,20 +5,16 @@ import { signIn } from "next-auth/react"
 import { getSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { getServerSession } from "next-auth"
-import { HelpCircle } from "lucide-react"
-
+import { HelpCircle, MoveDownRight } from "lucide-react"
 
 export default function LoginPage() {
-
-
   const router = useRouter()
-
 
   useEffect(() => {
     const ifUserLogged = async () => {
       const session = await getSession()
       const userId = session?.user?.email
-      console.log(userId);
+      console.log(userId)
 
       if (userId) {
         router.push(`${process.env.BASE_PATH}`)
@@ -27,47 +23,46 @@ export default function LoginPage() {
     ifUserLogged()
   }, [])
 
-
   const [data, setData] = useState({
     email: "" as string,
     password: "" as string,
-  });
+  })
 
   const loginUser = async (e: FormEvent) => {
-    e.preventDefault();
-    signIn('credentials', {
+    e.preventDefault()
+    signIn("credentials", {
       ...data,
       redirect: true,
-      callbackUrl: '/e-commerce',
-    });
+      callbackUrl: "/e-commerce",
+    })
   }
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
+      <div className="flex min-h-full flex-col items-center justify-center px-6 pb-24 lg:px-8 bg-white">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm my-5">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
         </div>
-        <div className="flex flex-col items-center justify-center mt-2">
-          <div className="text-left border p-3 rounded-lg text-gray-600 relative">
-            <HelpCircle className="absolute top- left-0 w-[20px] h-[20px] -translate-x-2 -translate-y-5" />
-            <p>Login: admin@gmail.com</p>
-            <p>Password: root</p>
-          </div>
-        </div>
 
+        <div className="border-2 border-red-500 flex flex-col px-8 py-4 rounded-lg m-5 text-black relative">
+          <MoveDownRight className="text-red-700 absolute left-0 top-0 -translate-x-8 -translate-y-8 w-8 h-8" />
+          <span>
+            Login: <b>admin@gmail.com</b>
+          </span>
+          <span>
+            Password: <b>root</b>
+          </span>
+        </div>
 
         <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
           {/* Tutaj zaczyna się form */}
           <form className="space-y-6" onSubmit={loginUser}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Email address
               </label>
               <div className="mt-2">
@@ -87,11 +82,17 @@ export default function LoginPage() {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  <a
+                    href="#"
+                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                  >
                     Forgot password?
                   </a>
                 </div>
@@ -122,8 +123,11 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500 hover:cursor-pointer">
-            Have not an account yet?{' '}
-            <span onClick={() => router.push('/register')} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            Have not an account yet?{" "}
+            <span
+              onClick={() => router.push("/register")}
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
               Sign up
             </span>
           </p>
