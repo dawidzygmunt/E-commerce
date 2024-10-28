@@ -1,11 +1,10 @@
-"use client";
+"use client"
 
-import { Session } from "inspector";
-import { SessionProvider } from "next-auth/react";
-import { ReactNode, FC } from "react";
+import { SessionProvider } from "next-auth/react"
+import { ReactNode, FC } from "react"
 
 interface ProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const ProviderSession: FC<ProviderProps> = ({ children }) => {
@@ -14,5 +13,5 @@ export const ProviderSession: FC<ProviderProps> = ({ children }) => {
     <SessionProvider basePath="/e-commerce/api/auth">
       {children}
     </SessionProvider>
-  );
-};
+  )
+}
