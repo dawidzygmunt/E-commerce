@@ -31,12 +31,18 @@ model Account {
   @@index([userId])
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   password      String?
+  role          UserRole  @default(USER)
   image         String?
   accounts      Account[]
 }

@@ -16,8 +16,6 @@ export default auth((req) => {
 
   const basePath = process.env.BASE_PATH
 
-  console.log("Page: ", nextUrl.pathname)
-
   if (isApiAuthRoute) {
     return
   }

@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs"
 
 import { RegisterSchema } from "@/schemas"
 import prismadb from "@/lib/prismadb"
-import { error } from "console"
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values)

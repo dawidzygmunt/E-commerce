@@ -22,7 +22,6 @@ import { ModeToggle } from "../ui/theme-toggle"
 import { FormSuccess } from "../form-success"
 import { login } from "@/actions/auth/login"
 import { useState, useTransition } from "react"
-import { start } from "repl"
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("")
@@ -62,7 +61,7 @@ export const LoginForm = () => {
 
       <Form {...form}>
         <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-          <div>
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="email"
