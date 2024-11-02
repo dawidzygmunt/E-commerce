@@ -7,20 +7,21 @@ import { UserButton } from "./user-button"
 import { Button } from "./ui/button"
 import { ModeToggle } from "./ui/theme-toggle"
 import GoToStoreButton from "./nav-go-to-store"
+import { auth } from "@/auth"
 
 export const Navbar = async () => {
-  // const session = await getServerSession(authOptions)
-  // const userId = session?.user?.email
+  const session = await auth()
+  const userId = session?.user?.id
 
-  // if (!userId) {
-  //   redirect("/sign-in")
-  // }
+  if (!userId) {
+    redirect("/sign-in")
+  }
 
-  // const stores = await prismadb.store.findMany({
-  //   where: {
-  //     userId
-  //   }
-  // })
+  const stores = await prismadb.store.findMany({
+    where: {
+      userId,
+    },
+  })
 
   return (
     <div className="border-b">
@@ -35,7 +36,7 @@ export const Navbar = async () => {
           {session?.user ? (
             <UserButton />
           ) : (
-            <Button onClick={() => redirect("/sign-in")}>Log in</Button>
+            <Button onClick={() => redirect("/login")}>Log in</Button>
           )}
         </div>
       </div>

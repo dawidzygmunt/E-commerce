@@ -1,20 +1,17 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb";
-
+import prismadb from "@/lib/prismadb"
+import { auth } from "@/auth"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 
-
-    const userId = session?.user?.email
-    const body = await req.json();
+    const userId = session?.user?.id
+    const body = await req.json()
 
     const { name, billboardId } = body
 
@@ -37,8 +34,8 @@ export async function POST(
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
@@ -49,17 +46,15 @@ export async function POST(
       data: {
         name,
         billboardId,
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(category);
-
+    return NextResponse.json(category)
   } catch (error) {
-    console.log('[BILLBOARDS]', error);
+    console.log("[BILLBOARDS]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }
-
 
 export async function GET(
   req: Request,
@@ -68,13 +63,12 @@ export async function GET(
   try {
     const categoires = await prismadb.category.findMany({
       where: {
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(categoires);
-
+    return NextResponse.json(categoires)
   } catch (error) {
-    console.log('[CATEGORIRES_GET]', error);
+    console.log("[CATEGORIRES_GET]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }

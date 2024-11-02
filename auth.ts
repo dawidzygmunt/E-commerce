@@ -18,17 +18,12 @@ declare module "next-auth" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  // NOT WORKING AS ALWAYS IN FCK NEXT
-  // basePath: "http://localhost:3000/e-commerce",
-  // Workaround with pages from Auth.js v4
-  // pages: {
-  //   signIn: "/e-commerce", // Add your base path here
-  //   error: "/xd",
-  // },
   callbacks: {
-    async signIn({ user }) {
-      if (!user.id) {
-        return false
+    async signIn({ user, account }) {
+      if (!user?.id) return false
+
+      if (account?.provider !== "credentials") {
+        return true
       }
 
       const existingUser = await getUserById(user.id)
@@ -40,8 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true
     },
     async session({ token, session }) {
-      console.log({ sessionToken: token })
-
       if (token.sub && session.user) {
         session.user.id = token.sub
       }

@@ -6,11 +6,11 @@ import { CellAction } from "./cell-action"
 export type ProductColumn = {
   id: string
   name: string
-  price: string,
-  category: string,
-  color: string,
-  isFeatured: boolean,
-  isArchived: boolean,
+  price: string
+  category: string
+  color: string
+  isFeatured: boolean
+  isArchived: boolean
   createdAt: string
 }
 
@@ -46,7 +46,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
           style={{ backgroundColor: row.original.color }}
         />
       </div>
-    )
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -54,6 +54,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
 ]

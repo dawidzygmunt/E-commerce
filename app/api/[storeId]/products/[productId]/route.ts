@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import prismadb from "@/lib/prismadb";
+import { NextResponse } from "next/server"
+import prismadb from "@/lib/prismadb"
+import { auth } from "@/auth"
 
 export async function GET(
   _req: Request,
@@ -9,7 +8,7 @@ export async function GET(
 ) {
   try {
     if (!params.productId) {
-      return new NextResponse("Product Id is required", { status: 400 });
+      return new NextResponse("Product Id is required", { status: 400 })
     }
 
     const product = await prismadb.product.findUnique({
@@ -21,23 +20,23 @@ export async function GET(
         category: true,
         size: true,
         color: true,
-      }
-    });
+      },
+    })
 
-    return NextResponse.json(product);
+    return NextResponse.json(product)
   } catch (error) {
-    console.log('[PRODUCT_GET]' + error);
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PRODUCT_GET]" + error)
+    return new NextResponse("Internal error", { status: 500 })
   }
-};
+}
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string, productId: string } }
+  { params }: { params: { storeId: string; productId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.email
+    const session = await auth()
+    const userId = session?.user?.id
     const body = await req.json()
 
     const {
@@ -50,7 +49,6 @@ export async function PATCH(
       isFeatured,
       isArchived,
     } = body
-
 
     if (!userId) {
       return new NextResponse("Unatuhicated", { status: 401 })
@@ -80,22 +78,20 @@ export async function PATCH(
       return new NextResponse("Color id is required", { status: 400 })
     }
 
-
     if (!params.productId) {
-      return new NextResponse("Product Id required", { status: 400 });
+      return new NextResponse("Product Id required", { status: 400 })
     }
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
       return new NextResponse("Unauthorized", { status: 403 })
     }
-
 
     await prismadb.product.update({
       where: {
@@ -112,8 +108,8 @@ export async function PATCH(
         },
         isFeatured,
         isArchived,
-      }
-    });
+      },
+    })
 
     const products = await prismadb.product.update({
       where: {
@@ -122,44 +118,40 @@ export async function PATCH(
       data: {
         images: {
           createMany: {
-            data: [
-              ...images.map((image: { url: string }) => image)
-            ]
-          }
-        }
-      }
+            data: [...images.map((image: { url: string }) => image)],
+          },
+        },
+      },
     })
 
-    return NextResponse.json(products);
+    return NextResponse.json(products)
   } catch (error) {
-    console.log('[PRODUCT_PATCH]' + error);
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PRODUCT_PATCH]" + error)
+    return new NextResponse("Internal error", { status: 500 })
   }
-};
+}
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { storeId: string, productId: string } }
+  { params }: { params: { storeId: string; productId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.email
-
+    const session = await auth()
+    const userId = session?.user?.id
 
     if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 401 });
+      return new NextResponse("Unauthenticated", { status: 401 })
     }
 
     if (!params.productId) {
-      return new NextResponse("Product Id is required", { status: 400 });
-
+      return new NextResponse("Product Id is required", { status: 400 })
     }
 
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
@@ -169,17 +161,12 @@ export async function DELETE(
     const product = await prismadb.product.deleteMany({
       where: {
         id: params.productId,
-      }
-    });
+      },
+    })
 
-    return NextResponse.json(product);
+    return NextResponse.json(product)
   } catch (error) {
-    console.log('[PRODUCT_DELETE]' + error);
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PRODUCT_DELETE]" + error)
+    return new NextResponse("Internal error", { status: 500 })
   }
-};
-
-
-
-
-
+}

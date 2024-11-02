@@ -1,21 +1,18 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb";
-import { useParams } from "next/navigation";
+import prismadb from "@/lib/prismadb"
+import { useParams } from "next/navigation"
+import { auth } from "@/auth"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    console.log(session);
+    const session = await auth()
 
-
-    const userId = session?.user?.email
-    const body = await req.json();
+    const userId = session?.user?.id
+    const body = await req.json()
 
     const { label, imageUrl } = body
 
@@ -38,8 +35,8 @@ export async function POST(
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
@@ -50,17 +47,15 @@ export async function POST(
       data: {
         label,
         imageUrl,
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(billboard);
-
+    return NextResponse.json(billboard)
   } catch (error) {
-    console.log('[BILLBOARDS]', error);
+    console.log("[BILLBOARDS]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }
-
 
 export async function GET(
   req: Request,
@@ -69,13 +64,12 @@ export async function GET(
   try {
     const billboards = await prismadb.billboard.findMany({
       where: {
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(billboards);
-
+    return NextResponse.json(billboards)
   } catch (error) {
-    console.log('[BILLBOARDS_GET]', error);
+    console.log("[BILLBOARDS_GET]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }

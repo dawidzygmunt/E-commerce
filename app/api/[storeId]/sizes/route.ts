@@ -1,21 +1,17 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb";
-
+import prismadb from "@/lib/prismadb"
+import { auth } from "@/auth"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    console.log(session);
+    const session = await auth()
 
-
-    const userId = session?.user?.email
-    const body = await req.json();
+    const userId = session?.user?.id
+    const body = await req.json()
 
     const { name, value } = body
 
@@ -38,8 +34,8 @@ export async function POST(
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
@@ -50,17 +46,15 @@ export async function POST(
       data: {
         name,
         value,
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(size);
-
+    return NextResponse.json(size)
   } catch (error) {
-    console.log('[SIZES_POST]', error);
+    console.log("[SIZES_POST]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }
-
 
 export async function GET(
   req: Request,
@@ -69,13 +63,12 @@ export async function GET(
   try {
     const sizes = await prismadb.size.findMany({
       where: {
-        storeId: params.storeId
-      }
+        storeId: params.storeId,
+      },
     })
-    return NextResponse.json(sizes);
-
+    return NextResponse.json(sizes)
   } catch (error) {
-    console.log('[SIZES_GET]', error);
+    console.log("[SIZES_GET]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }

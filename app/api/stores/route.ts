@@ -1,19 +1,13 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/options"
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb";
+import prismadb from "@/lib/prismadb"
+import { auth } from "@/auth"
 
-export async function POST(
-  req: Request
-) {
+export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
-    console.log(session);
-    
-
-    const userId = session?.user?.email
-    const body = await req.json();
+    const session = await auth()
+    const userId = session?.user?.id
+    const body = await req.json()
 
     const { name } = body
 
@@ -28,13 +22,12 @@ export async function POST(
     const store = await prismadb.store.create({
       data: {
         name,
-        userId
-      }
+        userId,
+      },
     })
-    return NextResponse.json(store);
-
+    return NextResponse.json(store)
   } catch (error) {
-    console.log('[STORES_POST]', error);
-    return new NextResponse("Nieznany błąd ", { status: 500 })
+    console.log("[STORES_POST]", error)
+    return new NextResponse("Something went wrong", { status: 500 })
   }
 }

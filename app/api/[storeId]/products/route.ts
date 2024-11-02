@@ -1,18 +1,16 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/options";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb";
-
+import prismadb from "@/lib/prismadb"
+import { auth } from "@/auth"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    const userId = session?.user?.email
-    const body = await req.json();
+    const session = await auth()
+    const userId = session?.user?.id
+    const body = await req.json()
 
     const {
       name,
@@ -60,8 +58,8 @@ export async function POST(
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,
-        userId
-      }
+        userId,
+      },
     })
 
     if (!storeByUserId) {
@@ -80,35 +78,31 @@ export async function POST(
         storeId: params.storeId,
         images: {
           createMany: {
-            data: [
-              ...images.map((image: { url: string }) => image)
-            ],
-          }
-        }
-      }
+            data: [...images.map((image: { url: string }) => image)],
+          },
+        },
+      },
     })
-    return NextResponse.json(product);
-
+    return NextResponse.json(product)
   } catch (error) {
-    console.log('[PRODUCTS_ERROR]', error);
+    console.log("[PRODUCTS_ERROR]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }
 
-
 export async function GET(
   req: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: { storeId: string } }
 ) {
   try {
     const { searchParams } = new URL(req.url)
-    const categoryId = searchParams.get('categoryId') || undefined;
-    const colorId = searchParams.get('colorId') || undefined;
-    const sizeId = searchParams.get('sizeId') || undefined;
-    const isFeatured = searchParams.get('isFeatured');
+    const categoryId = searchParams.get("categoryId") || undefined
+    const colorId = searchParams.get("colorId") || undefined
+    const sizeId = searchParams.get("sizeId") || undefined
+    const isFeatured = searchParams.get("isFeatured")
 
     if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 });
+      return new NextResponse("Store id is required", { status: 400 })
     }
 
     const products = await prismadb.product.findMany({
@@ -127,13 +121,13 @@ export async function GET(
         size: true,
       },
       orderBy: {
-        createdAt: 'desc',
-      }
-    });
-  
-    return NextResponse.json(products);
+        createdAt: "desc",
+      },
+    })
+
+    return NextResponse.json(products)
   } catch (error) {
-    console.log('[PRODUCTS_GET]', error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.log("[PRODUCTS_GET]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
-};
+}
