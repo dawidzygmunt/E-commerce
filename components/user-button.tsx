@@ -29,7 +29,7 @@ export const UserButton = () => {
               />
             </div>
           ) : (
-            <div className="w-[30px] h-[30px] bg-slate-600 rounded-full text-white font-bold flex items-center justify-center text-sm">
+            <div className="w-[30px] h-[30px] bg-slate-600 rounded-full text-white font-bold flex items-center justify-center text-sm cursor-pointer">
               {user?.name?.[0].toUpperCase()}
             </div>
           )}
