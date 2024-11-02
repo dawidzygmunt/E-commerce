@@ -16,6 +16,7 @@ import { useCurrentUser } from "@/hooks/use-current-user"
 export const UserButton = () => {
   const router = useRouter()
   const user = useCurrentUser()
+  console.log("USER: ", user)
   return (
     <>
       <DropdownMenu>
