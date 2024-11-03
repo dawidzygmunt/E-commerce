@@ -1,5 +1,6 @@
 import { auth } from "./auth"
 import {
+  ApiRoute,
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
@@ -11,12 +12,13 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+  const isApiRoute = nextUrl.pathname.startsWith(ApiRoute)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
   const basePath = process.env.BASE_PATH
 
-  if (isApiAuthRoute) {
+  if (isApiAuthRoute || isApiRoute) {
     return
   }
 

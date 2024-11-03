@@ -11,8 +11,8 @@ import { ProviderSession } from "@/providers/session-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Panel Administracyjny",
-  description: "Panel Administracyjny",
+  title: "E-commerce Panel",
+  description: "E-commerce Admin Panel",
 }
 
 export default function RootLayout({
