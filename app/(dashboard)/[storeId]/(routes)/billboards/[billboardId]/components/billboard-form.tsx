@@ -1,68 +1,70 @@
 "use client"
 import * as z from "zod"
-import { Billboard } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Trash } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
-import axiosInstance from "@/axiosconfig";
+import { Billboard } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import { Trash } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import toast from "react-hot-toast"
+import { useParams, useRouter } from "next/navigation"
+import axiosInstance from "@/axiosconfig"
 
-import { Heading } from "@/components/ui/heading";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Heading } from "@/components/ui/heading"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { AlertModal } from "@/components/modals/alert-modal";
-import ImageUpload from "@/components/ui/image-upload";
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { AlertModal } from "@/components/modals/alert-modal"
+import ImageUpload from "@/components/ui/image-upload"
 
 const formSchema = z.object({
   label: z.string().min(1),
-  imageUrl: z.string().min(1)
-});
+  imageUrl: z.string().min(1),
+})
 
-type BillboardFormValues = z.infer<typeof formSchema>;
+type BillboardFormValues = z.infer<typeof formSchema>
 
 interface BillboardFormProps {
-  ininitalData: Billboard | null;
+  ininitalData: Billboard | null
 }
 
 export const BillboardForm: React.FC<BillboardFormProps> = ({
-  ininitalData
+  ininitalData,
 }) => {
-  const params = useParams();
-  const router = useRouter();
+  const params = useParams()
+  const router = useRouter()
 
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const title = ininitalData ? "Edit billboard" : "Create billboard";
-  const description = ininitalData ? "Edit a billboard" : "Create a billboard";
-  const toastMessage = ininitalData ? "Billboard updated" : "Billboard created";
-  const action = ininitalData ? "Save changes" : "Create";
-
+  const title = ininitalData ? "Edit billboard" : "Create billboard"
+  const description = ininitalData ? "Edit a billboard" : "Create a billboard"
+  const toastMessage = ininitalData ? "Billboard updated" : "Billboard created"
+  const action = ininitalData ? "Save changes" : "Create"
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: ininitalData || {
-      label: '',
-      imageUrl: ''
-    }
-  });
+      label: "",
+      imageUrl: "",
+    },
+  })
 
   const onSubmit = async (data: BillboardFormValues) => {
     try {
-      setLoading(true);
+      setLoading(true)
       if (ininitalData) {
-        await axiosInstance.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data)        
+        await axiosInstance.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        )
       } else {
         await axiosInstance.post(`/api/${params.storeId}/billboards`, data)
       }
@@ -75,18 +77,22 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     } finally {
       setLoading(false)
     }
-  };
+  }
 
   const onDelete = async () => {
     try {
       setLoading(true)
-      await axiosInstance.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
+      await axiosInstance.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      )
       router.refresh()
       router.push(`/${params.storeId}/billboards`)
       router.refresh()
       toast.success("Billboard deleted")
     } catch (error) {
-      toast.error("Make sure you removed all categories using this billboard first");
+      toast.error(
+        "Make sure you removed all categories using this billboard first"
+      )
     } finally {
       setLoading(false)
       setOpen(false)
@@ -102,16 +108,15 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         loading={loading}
       />
       <div className="flex flex-items justify-between">
-        <Heading
-          title={title}
-          description={description}
-        />
+        <Heading title={title} description={description} />
         {ininitalData && (
           <Button
             disabled={loading}
             variant="destructive"
             size="sm"
-            onClick={() => { setOpen(true) }}
+            onClick={() => {
+              setOpen(true)
+            }}
           >
             <Trash className="h-4 w-4" />
           </Button>
@@ -119,13 +124,16 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       </div>
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-full"
+        >
           <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Backfound image</FormLabel>
+                <FormLabel>Background image</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -146,7 +154,11 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                 <FormItem>
                   <FormLabel>Label</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Billboard label" {...field} />
+                    <Input
+                      disabled={loading}
+                      placeholder="Billboard label"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

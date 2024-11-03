@@ -13,10 +13,10 @@ export async function POST(
     const userId = session?.user?.id
     const body = await req.json()
 
-    const { name, billboardId } = body
+    const { name, billboardId, imageUrl } = body
 
     if (!userId) {
-      return new NextResponse("Unatuhicated", { status: 401 })
+      return new NextResponse("Unauthenticated", { status: 401 })
     }
 
     if (!name) {
@@ -47,6 +47,7 @@ export async function POST(
         name,
         billboardId,
         storeId: params.storeId,
+        imageUrl,
       },
     })
     return NextResponse.json(category)
