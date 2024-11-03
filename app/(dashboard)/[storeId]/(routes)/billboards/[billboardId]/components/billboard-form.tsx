@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,10 +24,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { AlertModal } from "@/components/modals/alert-modal"
 import ImageUpload from "@/components/ui/image-upload"
+import { Checkbox } from "@/components/ui/checkbox"
 
 const formSchema = z.object({
   label: z.string().min(1),
   imageUrl: z.string().min(1),
+  showText: z.boolean(),
 })
 
 type BillboardFormValues = z.infer<typeof formSchema>
@@ -54,6 +57,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
     defaultValues: ininitalData || {
       label: "",
       imageUrl: "",
+      showText: false,
     },
   })
 
@@ -161,6 +165,26 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="showText"
+              render={({ field }) => (
+                <FormItem className="flex flex-row space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Show text on billboard</FormLabel>
+                    <FormDescription>
+                      Should it display the label on the billboard?
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />

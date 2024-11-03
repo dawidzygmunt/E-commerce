@@ -26,14 +26,16 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string; billboardId: string } }
+  {
+    params,
+  }: { params: { storeId: string; billboardId: string; showText: boolean } }
 ) {
   try {
     const session = await auth()
     const userId = session?.user?.id
     const body = await req.json()
 
-    const { label, imageUrl } = body
+    const { label, imageUrl, showText } = body
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 })
@@ -67,6 +69,7 @@ export async function PATCH(
         id: params.billboardId,
       },
       data: {
+        showText,
         label,
         imageUrl,
       },

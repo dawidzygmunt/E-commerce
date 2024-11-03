@@ -14,7 +14,7 @@ export async function POST(
     const userId = session?.user?.id
     const body = await req.json()
 
-    const { label, imageUrl } = body
+    const { label, imageUrl, showText } = body
 
     if (!userId) {
       return new NextResponse("Unatuhicated", { status: 401 })
@@ -48,6 +48,7 @@ export async function POST(
         label,
         imageUrl,
         storeId: params.storeId,
+        showText,
       },
     })
     return NextResponse.json(billboard)
