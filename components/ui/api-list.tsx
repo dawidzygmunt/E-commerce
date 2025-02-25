@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useOrigin } from "@/hooks/use-origin";
-import { useParams } from "next/navigation";
-import { ApiAlert } from "./api-alert";
+import { useOrigin } from '@/hooks/use-origin'
+import { useParams } from 'next/navigation'
+import { ApiAlert } from './api-alert'
 
 interface ApliListProps {
-  entityName: string;
-  entityIdName: string;
+  entityName: string
+  entityIdName: string
 }
 
 export const ApiList: React.FC<ApliListProps> = ({
@@ -16,38 +16,37 @@ export const ApiList: React.FC<ApliListProps> = ({
   const params = useParams()
   const origin = useOrigin()
 
-  const baseUrl = `${origin}/api/${params.storeId}`
+  const baseUrl = `${origin}${process.env.NEXT_PUBLIC_BASE_PATH}/api/${params.storeId}`
 
   return (
     <>
-      <ApiAlert 
+      <ApiAlert
         title="GET"
         variant="public"
         description={`${baseUrl}/${entityName}`}
       />
-      <ApiAlert 
+      <ApiAlert
         title="GET"
         variant="public"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
 
-      <ApiAlert 
+      <ApiAlert
         title="POST"
         variant="admin"
         description={`${baseUrl}/${entityName}`}
       />
 
-      <ApiAlert 
+      <ApiAlert
         title="PATCH"
         variant="admin"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
-      <ApiAlert 
+      <ApiAlert
         title="DELETE"
         variant="admin"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
-      
     </>
   )
 }
