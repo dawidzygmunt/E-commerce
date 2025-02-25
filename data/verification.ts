@@ -1,5 +1,4 @@
-import prismadb from "@/lib/prismadb"
-import { verify } from "crypto"
+import prismadb from '@/lib/prismadb'
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {

@@ -1,18 +1,18 @@
-import { Navbar } from "@/components/navbar"
-import { NextResponse } from "next/server"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import GeneralInforForm from "./components/general-info-form"
-import SeccurityForm from "./components/security-form"
-import { auth } from "@/auth"
+import { Navbar } from '@/components/navbar'
+import { NextResponse } from 'next/server'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import GeneralInforForm from './components/general-info-form'
+import SeccurityForm from './components/security-form'
+import { auth } from '@/auth'
 
 const AccountSettings = async () => {
   const session = await auth()
   const userId = session?.user?.id
 
   if (!userId) {
-    return new NextResponse("Unatuhicated", { status: 401 })
+    return new NextResponse('Unatuhicated', { status: 401 })
   }
   console.log(session?.user?.image)
 
@@ -32,7 +32,7 @@ const AccountSettings = async () => {
                     alt="avatar"
                     width={100}
                     height={100}
-                    className="rounded-xl p-1 aspect-square object-cover w-auto"
+                    className="rounded-xl p-1 aspect-square object-cover w-auto max-w-40 max-h-40"
                   />
                 )}
                 <div className="flex flex-col justify-center pl-3">
