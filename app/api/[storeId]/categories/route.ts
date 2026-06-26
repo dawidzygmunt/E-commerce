@@ -1,46 +1,23 @@
 import { NextResponse } from "next/server"
 
 import prismadb from "@/lib/prismadb"
-import { auth } from "@/auth"
+import { CategorySchema } from "@/schemas"
+import { verifyStoreOwner } from "@/lib/verify-store-owner"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await auth()
+    const auth = await verifyStoreOwner(params.storeId)
+    if ("error" in auth) return auth.error
 
-    const userId = session?.user?.id
     const body = await req.json()
-
-    const { name, billboardId, imageUrl } = body
-
-    if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 401 })
+    const parsed = CategorySchema.safeParse(body)
+    if (!parsed.success) {
+      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
     }
-
-    if (!name) {
-      return new NextResponse("Name is required", { status: 400 })
-    }
-
-    if (!params.storeId) {
-      return new NextResponse("Store id is required", { status: 400 })
-    }
-
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 })
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    })
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 })
-    }
+    const { name, billboardId, imageUrl } = parsed.data
 
     const category = await prismadb.category.create({
       data: {
@@ -52,24 +29,24 @@ export async function POST(
     })
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[BILLBOARDS]", error)
+    console.log("[CATEGORIES_POST]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const categoires = await prismadb.category.findMany({
+    const categories = await prismadb.category.findMany({
       where: {
         storeId: params.storeId,
       },
     })
-    return NextResponse.json(categoires)
+    return NextResponse.json(categories)
   } catch (error) {
-    console.log("[CATEGORIRES_GET]", error)
+    console.log("[CATEGORIES_GET]", error)
     return new NextResponse("Internal error ", { status: 500 })
   }
 }

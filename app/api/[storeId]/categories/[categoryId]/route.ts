@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
 
 import prismadb from "@/lib/prismadb"
-import { auth } from "@/auth"
+import { CategorySchema } from "@/schemas"
+import { verifyStoreOwner } from "@/lib/verify-store-owner"
 
 export async function GET(
   _req: Request,
@@ -33,38 +34,19 @@ export async function PATCH(
   { params }: { params: { storeId: string; categoryId: string } }
 ) {
   try {
-    const session = await auth()
-    const userId = session?.user?.id
+    const auth = await verifyStoreOwner(params.storeId)
+    if ("error" in auth) return auth.error
+
+    if (!params.categoryId) {
+      return new NextResponse("Category id required", { status: 400 })
+    }
+
     const body = await req.json()
-
-    const { name, billboardId } = body
-
-    if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 401 })
+    const parsed = CategorySchema.safeParse(body)
+    if (!parsed.success) {
+      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
     }
-
-    if (!name) {
-      return new NextResponse("Name is required", { status: 400 })
-    }
-
-    if (!billboardId) {
-      return new NextResponse("Billboard id is required", { status: 400 })
-    }
-
-    if (!params.storeId) {
-      return new NextResponse("Billboard Id required", { status: 400 })
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    })
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 })
-    }
+    const { name, billboardId, imageUrl } = parsed.data
 
     const category = await prismadb.category.updateMany({
       where: {
@@ -73,6 +55,7 @@ export async function PATCH(
       data: {
         name,
         billboardId,
+        imageUrl,
       },
     })
 
@@ -88,26 +71,11 @@ export async function DELETE(
   { params }: { params: { storeId: string; categoryId: string } }
 ) {
   try {
-    const session = await auth()
-    const userId = session?.user?.id
-
-    if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 401 })
-    }
+    const auth = await verifyStoreOwner(params.storeId)
+    if ("error" in auth) return auth.error
 
     if (!params.categoryId) {
-      return new NextResponse("Cateogry id is required", { status: 400 })
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    })
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 })
+      return new NextResponse("Category id is required", { status: 400 })
     }
 
     const category = await prismadb.category.deleteMany({

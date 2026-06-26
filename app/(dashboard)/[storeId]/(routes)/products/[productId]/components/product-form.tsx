@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Category, Color, Image, Product, Size } from "@prisma/client";
+import { z } from "zod"
+import { ProductSchema } from "@/schemas"
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,18 +29,7 @@ import { Fascinate } from "next/font/google";
 import { Checkbox } from "@/components/ui/checkbox";
 import axiosInstance from "@/axiosconfig";
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  images: z.object({ url: z.string() }).array(),
-  price: z.coerce.number().min(1),
-  categoryId: z.string().min(1),
-  colorId: z.string().min(1),
-  sizeId: z.string().min(1),
-  isFeatured: z.boolean().default(false).optional(),
-  isArchived: z.boolean().default(false).optional(),
-});
-
-type ProductFormValues = z.infer<typeof formSchema>;
+type ProductFormValues = z.infer<typeof ProductSchema>;
 
 interface ProductFormProps {
   ininitalData: Product & {
@@ -69,7 +59,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(ProductSchema),
     defaultValues: ininitalData ? {
       ...ininitalData,
       price: parseFloat(String(ininitalData?.price)),

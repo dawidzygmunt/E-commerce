@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Billboard, Category } from "@prisma/client"
+import { z } from "zod"
+import { CategorySchema } from "@/schemas"
 import { useForm } from "react-hook-form"
 import { Trash } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -31,13 +32,7 @@ import {
 import axiosInstance from "@/axiosconfig"
 import ImageUpload from "@/components/ui/image-upload"
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  billboardId: z.string().min(1),
-  imageUrl: z.string().min(1),
-})
-
-type CategoryFormValues = z.infer<typeof formSchema>
+type CategoryFormValues = z.infer<typeof CategorySchema>
 
 interface CategoryFormProps {
   ininitalData: Category | null
@@ -60,7 +55,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const action = ininitalData ? "Save changes" : "Create"
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(CategorySchema),
     defaultValues: ininitalData || {
       name: "",
       billboardId: "",
