@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server"
-import prismadb from "@/lib/prismadb"
+
 import { SizeSchema } from "@/schemas"
 import { verifyStoreOwner } from "@/lib/verify-store-owner"
+import { API_ERRORS, errorResponse } from "@/lib/api-errors"
+import { getSize, updateSize, deleteSize } from "@/lib/services/size-service"
 
 export async function GET(
   _req: Request,
@@ -9,19 +11,14 @@ export async function GET(
 ) {
   try {
     if (!params.sizeId) {
-      return new NextResponse("Size Id is required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Size"), 400)
     }
 
-    const size = await prismadb.size.findUnique({
-      where: {
-        id: params.sizeId,
-      },
-    })
-
+    const size = await getSize(params.sizeId)
     return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZE_GET]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[SIZE_GET]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
 
@@ -34,30 +31,19 @@ export async function PATCH(
     if ("error" in auth) return auth.error
 
     if (!params.sizeId) {
-      return new NextResponse("Size id required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Size"), 400)
     }
 
-    const body = await req.json()
-    const parsed = SizeSchema.safeParse(body)
+    const parsed = SizeSchema.safeParse(await req.json())
     if (!parsed.success) {
-      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
+      return errorResponse(parsed.error.issues[0].message, 400)
     }
-    const { name, value } = parsed.data
 
-    const sizes = await prismadb.size.updateMany({
-      where: {
-        id: params.sizeId,
-      },
-      data: {
-        name,
-        value,
-      },
-    })
-
-    return NextResponse.json(sizes)
+    const size = await updateSize(params.sizeId, parsed.data)
+    return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZES_PATCH]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[SIZE_PATCH]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
 
@@ -70,18 +56,13 @@ export async function DELETE(
     if ("error" in auth) return auth.error
 
     if (!params.sizeId) {
-      return new NextResponse("Size id is required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Size"), 400)
     }
 
-    const sizes = await prismadb.size.deleteMany({
-      where: {
-        id: params.sizeId,
-      },
-    })
-
-    return NextResponse.json(sizes)
+    const size = await deleteSize(params.sizeId)
+    return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZES_DELETE]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[SIZE_DELETE]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

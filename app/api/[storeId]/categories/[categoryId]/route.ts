@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb"
 import { CategorySchema } from "@/schemas"
 import { verifyStoreOwner } from "@/lib/verify-store-owner"
+import { API_ERRORS, errorResponse } from "@/lib/api-errors"
+import {
+  getCategory,
+  updateCategory,
+  deleteCategory,
+} from "@/lib/services/category-service"
 
 export async function GET(
   _req: Request,
@@ -10,22 +15,14 @@ export async function GET(
 ) {
   try {
     if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Category"), 400)
     }
 
-    const category = await prismadb.category.findUnique({
-      where: {
-        id: params.categoryId,
-      },
-      include: {
-        billboard: true,
-      },
-    })
-
+    const category = await getCategory(params.categoryId)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_GET]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[CATEGORY_GET]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
 
@@ -38,31 +35,19 @@ export async function PATCH(
     if ("error" in auth) return auth.error
 
     if (!params.categoryId) {
-      return new NextResponse("Category id required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Category"), 400)
     }
 
-    const body = await req.json()
-    const parsed = CategorySchema.safeParse(body)
+    const parsed = CategorySchema.safeParse(await req.json())
     if (!parsed.success) {
-      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
+      return errorResponse(parsed.error.issues[0].message, 400)
     }
-    const { name, billboardId, imageUrl } = parsed.data
 
-    const category = await prismadb.category.updateMany({
-      where: {
-        id: params.categoryId,
-      },
-      data: {
-        name,
-        billboardId,
-        imageUrl,
-      },
-    })
-
+    const category = await updateCategory(params.categoryId, parsed.data)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_PATCH]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[CATEGORY_PATCH]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
 
@@ -75,18 +60,13 @@ export async function DELETE(
     if ("error" in auth) return auth.error
 
     if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 })
+      return errorResponse(API_ERRORS.idRequired("Category"), 400)
     }
 
-    const category = await prismadb.category.deleteMany({
-      where: {
-        id: params.categoryId,
-      },
-    })
-
+    const category = await deleteCategory(params.categoryId)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_DELETE]" + error)
-    return new NextResponse("Internal error", { status: 500 })
+    console.log("[CATEGORY_DELETE]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
