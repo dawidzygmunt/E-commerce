@@ -11,7 +11,7 @@ const nextConfig = {
         // matching all API routes
         source: "/api/:path*",
         headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Origin", value: process.env.FRONTEND_STORE_URL || "" },
           {
             key: "Access-Control-Allow-Methods",
             value: "GET, POST, PUT, DELETE, OPTIONS",

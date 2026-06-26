@@ -69,4 +69,4 @@ ENV PORT 3000
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 # CMD "npx prisma migrate dev " && HOSTNAME="0.0.0.0" node server.js
-CMD ["sh", "-c", "npx prisma migrate dev && npm start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
