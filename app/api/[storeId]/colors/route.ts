@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 
-import prismadb from "@/lib/prismadb"
 import { ColorSchema } from "@/schemas"
 import { verifyStoreOwner } from "@/lib/verify-store-owner"
+import { API_ERRORS, errorResponse } from "@/lib/api-errors"
+import { createColor, listColors } from "@/lib/services/color-service"
 
 export async function POST(
   req: Request,
@@ -12,24 +13,16 @@ export async function POST(
     const auth = await verifyStoreOwner(params.storeId)
     if ("error" in auth) return auth.error
 
-    const body = await req.json()
-    const parsed = ColorSchema.safeParse(body)
+    const parsed = ColorSchema.safeParse(await req.json())
     if (!parsed.success) {
-      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
+      return errorResponse(parsed.error.issues[0].message, 400)
     }
-    const { name, value } = parsed.data
 
-    const color = await prismadb.color.create({
-      data: {
-        name,
-        value,
-        storeId: params.storeId,
-      },
-    })
+    const color = await createColor(params.storeId, parsed.data)
     return NextResponse.json(color)
   } catch (error) {
-    console.log("[COLOR_POST]", error)
-    return new NextResponse("Internal error ", { status: 500 })
+    console.log("[COLORS_POST]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
 
@@ -38,14 +31,10 @@ export async function GET(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const colors = await prismadb.color.findMany({
-      where: {
-        storeId: params.storeId,
-      },
-    })
+    const colors = await listColors(params.storeId)
     return NextResponse.json(colors)
   } catch (error) {
-    console.log("[COLOR_GET]", error)
-    return new NextResponse("Internal error ", { status: 500 })
+    console.log("[COLORS_GET]", error)
+    return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
