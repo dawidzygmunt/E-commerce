@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { EntityCellAction } from "@/components/ui/entity-cell-action"
 
 export type ColorColumn = {
   id: string
@@ -34,6 +34,13 @@ export const columns: ColumnDef<ColorColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => (
+      <EntityCellAction
+        id={row.original.id}
+        entityName="colors"
+        entityLabel="Color"
+        deleteErrorMessage="Make sure you removed all products using this color first"
+      />
+    ),
   }
 ]

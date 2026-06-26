@@ -1,10 +1,10 @@
 import { format } from "date-fns"
 
-import { CategoryClient } from './components/client'
 import prismadb from '@/lib/prismadb'
-import { CatogoryColumn } from './components/columns'
+import { EntityClient } from '@/components/ui/entity-client'
+import { CategoryColumn, columns } from './components/columns'
 
-const CategoiresPage = async ({
+const CategoriesPage = async ({
   params
 }: {
   params: { storeId: string }
@@ -21,7 +21,7 @@ const CategoiresPage = async ({
     }
   });
 
-  const formattedCategories: CatogoryColumn[] = categories.map((item) => ({
+  const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
     name: item.name,
     billboardLabel: item.billboard.label,
@@ -31,11 +31,17 @@ const CategoiresPage = async ({
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
-        <CategoryClient data={formattedCategories} />
+        <EntityClient
+          data={formattedCategories}
+          columns={columns}
+          entityName="categories"
+          entityIdName="categoryId"
+          title="Categories"
+          description="Manage categories for your store"
+        />
       </div>
-
     </div>
   )
 }
 
-export default CategoiresPage
+export default CategoriesPage

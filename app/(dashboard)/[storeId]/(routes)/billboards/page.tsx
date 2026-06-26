@@ -1,8 +1,8 @@
 import { format } from "date-fns"
 
-import { BillboardClient } from './components/client'
 import prismadb from '@/lib/prismadb'
-import { BillboardColum } from './components/columns'
+import { EntityClient } from '@/components/ui/entity-client'
+import { BillboardColumn, columns } from './components/columns'
 
 const BillboardsPage = async ({
   params
@@ -18,7 +18,7 @@ const BillboardsPage = async ({
     }
   });
 
-  const fromatedBillboards: BillboardColum[] = billboards.map((item) => ({
+  const formattedBillboards: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
     label: item.label,
     createdAt: format(item.createdAt, "MMMM do, yyyy")
@@ -27,9 +27,16 @@ const BillboardsPage = async ({
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
-        <BillboardClient data={fromatedBillboards} />
+        <EntityClient
+          data={formattedBillboards}
+          columns={columns}
+          entityName="billboards"
+          entityIdName="billboardId"
+          title="Billboards"
+          description="Manage billboards for your store"
+          searchKey="label"
+        />
       </div>
-
     </div>
   )
 }

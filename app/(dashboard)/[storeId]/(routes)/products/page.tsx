@@ -1,11 +1,11 @@
 import { format } from "date-fns"
 
-import { ProductClient } from './components/client'
 import prismadb from '@/lib/prismadb'
-import { ProductColumn } from './components/columns'
+import { EntityClient } from '@/components/ui/entity-client'
+import { ProductColumn, columns } from './components/columns'
 import { formatter } from "@/lib/utils"
 
-const BillboardsPage = async ({
+const ProductsPage = async ({
   params
 }: {
   params: { storeId: string }
@@ -24,7 +24,7 @@ const BillboardsPage = async ({
     }
   });
 
-  const fromatedProducts: ProductColumn[] = products.map((item) => ({
+  const formattedProducts: ProductColumn[] = products.map((item) => ({
     id: item.id,
     name: item.name,
     isFeatured: item.isFeatured,
@@ -39,11 +39,17 @@ const BillboardsPage = async ({
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 p-8 pt-6'>
-        <ProductClient data={fromatedProducts} />
+        <EntityClient
+          data={formattedProducts}
+          columns={columns}
+          entityName="products"
+          entityIdName="productId"
+          title="Products"
+          description="Manage products for your store"
+        />
       </div>
-
     </div>
   )
 }
 
-export default BillboardsPage
+export default ProductsPage
