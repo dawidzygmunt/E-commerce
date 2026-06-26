@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { EntityCellAction } from "@/components/ui/entity-cell-action"
 
 export type SizeColumn = {
   id: string
@@ -25,6 +25,13 @@ export const columns: ColumnDef<SizeColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => (
+      <EntityCellAction
+        id={row.original.id}
+        entityName="sizes"
+        entityLabel="Size"
+        deleteErrorMessage="Make sure you removed all products using this size first"
+      />
+    ),
   }
 ]

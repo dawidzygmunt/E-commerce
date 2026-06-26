@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { EntityCellAction } from "@/components/ui/entity-cell-action"
 
 export type ProductColumn = {
   id: string
@@ -54,6 +54,13 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />,
+    cell: ({ row }) => (
+      <EntityCellAction
+        id={row.original.id}
+        entityName="products"
+        entityLabel="Product"
+        deleteErrorMessage="Something went wrong"
+      />
+    ),
   },
 ]

@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Billboard } from "@prisma/client"
+import { z } from "zod"
+import { BillboardSchema } from "@/schemas"
 import { useForm } from "react-hook-form"
 import { Trash } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -26,13 +27,7 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import ImageUpload from "@/components/ui/image-upload"
 import { Checkbox } from "@/components/ui/checkbox"
 
-const formSchema = z.object({
-  label: z.string().min(1),
-  imageUrl: z.string().min(1),
-  showText: z.boolean(),
-})
-
-type BillboardFormValues = z.infer<typeof formSchema>
+type BillboardFormValues = z.infer<typeof BillboardSchema>
 
 interface BillboardFormProps {
   ininitalData: Billboard | null
@@ -53,7 +48,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const action = ininitalData ? "Save changes" : "Create"
 
   const form = useForm<BillboardFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(BillboardSchema),
     defaultValues: ininitalData || {
       label: "",
       imageUrl: "",

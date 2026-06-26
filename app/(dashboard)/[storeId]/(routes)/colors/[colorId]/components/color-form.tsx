@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Color } from "@prisma/client";
+import { z } from "zod"
+import { ColorSchema } from "@/schemas"
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,14 +26,7 @@ import axiosInstance from "@/axiosconfig";
 
 
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(4).regex(/^#/, {
-    message: "String must be a valiv hex code"
-  })
-});
-
-type ColorFormValues = z.infer<typeof formSchema>;
+type ColorFormValues = z.infer<typeof ColorSchema>;
 
 interface ColorFormProps {
   ininitalData: Color | null;
@@ -57,7 +51,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
 
 
   const form = useForm<ColorFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(ColorSchema),
     defaultValues: ininitalData || {
       name: '',
       value: ''

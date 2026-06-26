@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Store } from "@prisma/client";
+import { z } from "zod"
+import { StoreSchema } from "@/schemas"
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,11 +30,7 @@ interface SettingsFormProps {
   ininitalData: Store;
 }
 
-const formSchema = z.object({
-  name: z.string().min(1),
-});
-
-type SettingsFormValues = z.infer<typeof formSchema>;
+type SettingsFormValues = z.infer<typeof StoreSchema>;
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({
   ininitalData
@@ -46,7 +43,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const form = useForm<SettingsFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(StoreSchema),
     defaultValues: ininitalData
   });
 

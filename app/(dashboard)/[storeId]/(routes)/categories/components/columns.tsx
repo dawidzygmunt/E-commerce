@@ -1,16 +1,16 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
+import { EntityCellAction } from "@/components/ui/entity-cell-action"
 
-export type CatogoryColumn = {
+export type CategoryColumn = {
   id: string
   name: string
   billboardLabel: string
   createdAt: string
 }
 
-export const columns: ColumnDef<CatogoryColumn>[] = [
+export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -26,6 +26,13 @@ export const columns: ColumnDef<CatogoryColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
+    cell: ({ row }) => (
+      <EntityCellAction
+        id={row.original.id}
+        entityName="categories"
+        entityLabel="Category"
+        deleteErrorMessage="Make sure you removed all products using this category first"
+      />
+    ),
+  },
 ]

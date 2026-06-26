@@ -1,6 +1,7 @@
 "use client"
-import * as z from "zod"
 import { Size } from "@prisma/client";
+import { z } from "zod"
+import { SizeSchema } from "@/schemas"
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,12 +26,7 @@ import axiosInstance from "@/axiosconfig";
 
 
 
-const formSchema = z.object({
-  name: z.string().min(1),
-  value: z.string().min(1)
-});
-
-type SizeFormValues = z.infer<typeof formSchema>;
+type SizeFormValues = z.infer<typeof SizeSchema>;
 
 interface SizeFormProps {
   ininitalData: Size | null;
@@ -55,7 +51,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({
 
 
   const form = useForm<SizeFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SizeSchema),
     defaultValues: ininitalData || {
       name: '',
       value: ''

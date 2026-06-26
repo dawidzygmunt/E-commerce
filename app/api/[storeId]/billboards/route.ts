@@ -1,46 +1,23 @@
 import { NextResponse } from "next/server"
 
 import prismadb from "@/lib/prismadb"
-import { auth } from "@/auth"
+import { BillboardSchema } from "@/schemas"
+import { verifyStoreOwner } from "@/lib/verify-store-owner"
 
 export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const session = await auth()
+    const auth = await verifyStoreOwner(params.storeId)
+    if ("error" in auth) return auth.error
 
-    const userId = session?.user?.id
     const body = await req.json()
-
-    const { label, imageUrl, showText } = body
-
-    if (!userId) {
-      return new NextResponse("Unatuhicated", { status: 401 })
+    const parsed = BillboardSchema.safeParse(body)
+    if (!parsed.success) {
+      return new NextResponse(parsed.error.issues[0].message, { status: 400 })
     }
-
-    if (!label) {
-      return new NextResponse("Label is required", { status: 400 })
-    }
-
-    if (!imageUrl) {
-      return new NextResponse("image Url is required", { status: 400 })
-    }
-
-    if (!params.storeId) {
-      return new NextResponse("Store Id is required", { status: 400 })
-    }
-
-    const storeByUserId = await prismadb.store.findFirst({
-      where: {
-        id: params.storeId,
-        userId,
-      },
-    })
-
-    if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 })
-    }
+    const { label, imageUrl, showText } = parsed.data
 
     const billboard = await prismadb.billboard.create({
       data: {
@@ -58,7 +35,7 @@ export async function POST(
 }
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: { storeId: string } }
 ) {
   try {
