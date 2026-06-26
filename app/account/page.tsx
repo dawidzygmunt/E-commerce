@@ -1,5 +1,5 @@
 import { Navbar } from '@/components/navbar'
-import { NextResponse } from 'next/server'
+import { redirect } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -12,9 +12,8 @@ const AccountSettings = async () => {
   const userId = session?.user?.id
 
   if (!userId) {
-    return new NextResponse('Unatuhicated', { status: 401 })
+    redirect('/auth/login')
   }
-  console.log(session?.user?.image)
 
   return (
     <div>
@@ -25,7 +24,13 @@ const AccountSettings = async () => {
             <CardContent className="p-4">
               <div className="flex">
                 {session?.user?.image ? (
-                  <p>Brak</p>
+                  <Image
+                    src={session.user.image}
+                    alt="avatar"
+                    width={100}
+                    height={100}
+                    className="rounded-xl p-1 aspect-square object-cover w-auto max-w-40 max-h-40"
+                  />
                 ) : (
                   <Image
                     src={`${process.env.BASE_PATH}/photo1.png`}

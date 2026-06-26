@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 
 import prismadb from "@/lib/prismadb"
-import { useParams } from "next/navigation"
 import { auth } from "@/auth"
 
 export async function POST(
