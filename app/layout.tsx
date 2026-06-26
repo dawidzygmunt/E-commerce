@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 
 import { ModalProvider } from "@/providers/modal-provider"
 import { ToasterProvider } from "@/providers/toast-provider"
-import { ThemeProvider } from "@/providers/theme-provoider"
+import { ThemeProvider } from "@/providers/theme-provider"
 
 import "./globals.css"
 import { ProviderSession } from "@/providers/session-provider"

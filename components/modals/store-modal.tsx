@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { error } from "console";
+;
 import axiosInstance from "@/axiosconfig";
 
 
@@ -40,12 +40,9 @@ export const StoreModal = () => {
       const response = await axiosInstance.post('/api/stores', values)
 
       window.location.assign(`/e-commerce/${response.data.id}`)
-      console.log("Store created");
-      
-      
     } catch (error) {
       toast.error("Something went wrong")
-      console.log(error);
+      console.error(error);
       
     } finally {
       setLoading(false)

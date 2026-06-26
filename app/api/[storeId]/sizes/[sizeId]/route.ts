@@ -17,7 +17,7 @@ export async function GET(
     const size = await getSize(params.sizeId)
     return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZE_GET]", error)
+    console.error("[SIZE_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -42,7 +42,7 @@ export async function PATCH(
     const size = await updateSize(params.sizeId, parsed.data)
     return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZE_PATCH]", error)
+    console.error("[SIZE_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -62,7 +62,7 @@ export async function DELETE(
     const size = await deleteSize(params.sizeId)
     return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZE_DELETE]", error)
+    console.error("[SIZE_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

@@ -21,7 +21,7 @@ export async function POST(
     const color = await createColor(params.storeId, parsed.data)
     return NextResponse.json(color)
   } catch (error) {
-    console.log("[COLORS_POST]", error)
+    console.error("[COLORS_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -34,7 +34,7 @@ export async function GET(
     const colors = await listColors(params.storeId)
     return NextResponse.json(colors)
   } catch (error) {
-    console.log("[COLORS_GET]", error)
+    console.error("[COLORS_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

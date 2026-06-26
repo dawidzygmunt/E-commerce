@@ -21,7 +21,7 @@ export async function GET(
     const category = await getCategory(params.categoryId)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_GET]", error)
+    console.error("[CATEGORY_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -46,7 +46,7 @@ export async function PATCH(
     const category = await updateCategory(params.categoryId, parsed.data)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_PATCH]", error)
+    console.error("[CATEGORY_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -66,7 +66,7 @@ export async function DELETE(
     const category = await deleteCategory(params.categoryId)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORY_DELETE]", error)
+    console.error("[CATEGORY_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

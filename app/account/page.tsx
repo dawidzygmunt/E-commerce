@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import GeneralInforForm from './components/general-info-form'
-import SeccurityForm from './components/security-form'
+import GeneralInfoForm from './components/general-info-form'
+import SecurityForm from './components/security-form'
 import { auth } from '@/auth'
 
 const AccountSettings = async () => {
@@ -55,18 +55,7 @@ const AccountSettings = async () => {
                 <CardTitle>Security</CardTitle>
               </CardHeader>
               <CardContent>
-                <SeccurityForm />
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="">
-            <Card>
-              <CardHeader>
-                <CardTitle>Sessions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <SeccurityForm />
+                <SecurityForm />
               </CardContent>
             </Card>
           </div>
@@ -78,7 +67,7 @@ const AccountSettings = async () => {
               <CardTitle>General information</CardTitle>
             </CardHeader>
             <CardContent>
-              <GeneralInforForm />
+              <GeneralInfoForm />
             </CardContent>
           </Card>
         </div>

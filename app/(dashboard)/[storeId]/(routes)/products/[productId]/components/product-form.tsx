@@ -104,7 +104,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh()
       toast.success("Products deleted")
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       toast.error("Something went wrong");
     } finally {

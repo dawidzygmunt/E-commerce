@@ -21,7 +21,7 @@ export async function POST(
     const category = await createCategory(params.storeId, parsed.data)
     return NextResponse.json(category)
   } catch (error) {
-    console.log("[CATEGORIES_POST]", error)
+    console.error("[CATEGORIES_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -34,7 +34,7 @@ export async function GET(
     const categories = await listCategories(params.storeId)
     return NextResponse.json(categories)
   } catch (error) {
-    console.log("[CATEGORIES_GET]", error)
+    console.error("[CATEGORIES_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

@@ -21,7 +21,7 @@ export async function GET(
     const billboard = await getBillboard(params.billboardId)
     return NextResponse.json(billboard)
   } catch (error) {
-    console.log("[BILLBOARD_GET]", error)
+    console.error("[BILLBOARD_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -46,7 +46,7 @@ export async function PATCH(
     const billboard = await updateBillboard(params.billboardId, parsed.data)
     return NextResponse.json(billboard)
   } catch (error) {
-    console.log("[BILLBOARD_PATCH]", error)
+    console.error("[BILLBOARD_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -66,7 +66,7 @@ export async function DELETE(
     const billboard = await deleteBillboard(params.billboardId)
     return NextResponse.json(billboard)
   } catch (error) {
-    console.log("[BILLBOARD_DELETE]", error)
+    console.error("[BILLBOARD_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

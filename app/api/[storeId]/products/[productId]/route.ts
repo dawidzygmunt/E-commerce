@@ -21,7 +21,7 @@ export async function GET(
     const product = await getProduct(params.productId)
     return NextResponse.json(product)
   } catch (error) {
-    console.log("[PRODUCT_GET]", error)
+    console.error("[PRODUCT_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -46,7 +46,7 @@ export async function PATCH(
     const product = await updateProduct(params.productId, parsed.data)
     return NextResponse.json(product)
   } catch (error) {
-    console.log("[PRODUCT_PATCH]", error)
+    console.error("[PRODUCT_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -66,7 +66,7 @@ export async function DELETE(
     const product = await deleteProduct(params.productId)
     return NextResponse.json(product)
   } catch (error) {
-    console.log("[PRODUCT_DELETE]", error)
+    console.error("[PRODUCT_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

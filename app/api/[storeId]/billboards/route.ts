@@ -21,7 +21,7 @@ export async function POST(
     const billboard = await createBillboard(params.storeId, parsed.data)
     return NextResponse.json(billboard)
   } catch (error) {
-    console.log("[BILLBOARDS_POST]", error)
+    console.error("[BILLBOARDS_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -34,7 +34,7 @@ export async function GET(
     const billboards = await listBillboards(params.storeId)
     return NextResponse.json(billboards)
   } catch (error) {
-    console.log("[BILLBOARDS_GET]", error)
+    console.error("[BILLBOARDS_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

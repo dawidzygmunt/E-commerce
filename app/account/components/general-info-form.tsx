@@ -19,7 +19,7 @@ import InputField from "./ui/form-field"
 
 
 
-const GeneralInforForm = () => {
+const GeneralInfoForm = () => {
   const formSchema = z.object({
     firstName: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -49,9 +49,6 @@ const GeneralInforForm = () => {
   
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-      console.log(values)
     }
   return (
     <Form {...form}>
@@ -132,4 +129,4 @@ const GeneralInforForm = () => {
   )
 }
 
-export default GeneralInforForm
+export default GeneralInfoForm

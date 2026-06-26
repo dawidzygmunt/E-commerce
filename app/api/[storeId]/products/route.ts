@@ -21,7 +21,7 @@ export async function POST(
     const product = await createProduct(params.storeId, parsed.data)
     return NextResponse.json(product)
   } catch (error) {
-    console.log("[PRODUCTS_POST]", error)
+    console.error("[PRODUCTS_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -50,7 +50,7 @@ export async function GET(
 
     return NextResponse.json(products)
   } catch (error) {
-    console.log("[PRODUCTS_GET]", error)
+    console.error("[PRODUCTS_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
