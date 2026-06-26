@@ -29,7 +29,7 @@ export async function PATCH(
     const store = await updateStore(params.storeId, userId, parsed.data)
     return NextResponse.json(store)
   } catch (error) {
-    console.log("[STORE_PATCH]", error)
+    console.error("[STORE_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -53,7 +53,7 @@ export async function DELETE(
     const store = await deleteStore(params.storeId, userId)
     return NextResponse.json(store)
   } catch (error) {
-    console.log("[STORE_DELETE]", error)
+    console.error("[STORE_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

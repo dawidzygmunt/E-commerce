@@ -2,8 +2,8 @@
 
 ## Opis
 
-Ecommerce CMS to aplikacja internetowa, która umożliwia efektywne zarządzanie treścią sklepów internetowych. Projekt wykorzystuje technologie takie jak Next.js, React, Typescript, TailwindCSS,Prisma oraz MySQL. Celem aplikacji jest usprawnienie procesu zarządzania zawartością e-commerce, z naciskiem na prostotę obsługi i intuicyjność.
-Strona jset panelem zarządzania sklepem internetowym: https://dawidzygmuntdev.pl/store
+Ecommerce CMS to aplikacja internetowa, która umożliwia efektywne zarządzanie treścią sklepów internetowych. Projekt wykorzystuje technologie takie jak Next.js, React, Typescript, TailwindCSS, Prisma oraz PostgreSQL. Celem aplikacji jest usprawnienie procesu zarządzania zawartością e-commerce, z naciskiem na prostotę obsługi i intuicyjność.
+Strona jest panelem zarządzania sklepem internetowym: https://dawidzygmuntdev.pl/store
 
 ## Live
 Zobacz Demo: https://dawidzygmuntdev.pl/e-commerce
@@ -50,10 +50,6 @@ npm run dev
 ```
 
 Otwórz przeglądarkę i przejdź do `http://localhost:3000`, aby korzystać z Ecommerce CMS.
-
-## Dokumentacja
-
-Dokumentacja projektu znajduje się w katalogu `docs`. Przeczytaj pliki dokumentacji, aby zaznajomić się z dostępnymi funkcjami i ich użyciem.
 
 ## Zgłaszanie Błędów
 

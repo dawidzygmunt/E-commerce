@@ -21,7 +21,7 @@ export async function POST(
     const size = await createSize(params.storeId, parsed.data)
     return NextResponse.json(size)
   } catch (error) {
-    console.log("[SIZES_POST]", error)
+    console.error("[SIZES_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -34,7 +34,7 @@ export async function GET(
     const sizes = await listSizes(params.storeId)
     return NextResponse.json(sizes)
   } catch (error) {
-    console.log("[SIZES_GET]", error)
+    console.error("[SIZES_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

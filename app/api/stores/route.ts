@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const store = await createStore(userId, parsed.data)
     return NextResponse.json(store)
   } catch (error) {
-    console.log("[STORES_POST]", error)
+    console.error("[STORES_POST]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

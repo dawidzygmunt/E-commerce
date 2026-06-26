@@ -21,7 +21,7 @@ export async function GET(
     const color = await getColor(params.colorId)
     return NextResponse.json(color)
   } catch (error) {
-    console.log("[COLOR_GET]", error)
+    console.error("[COLOR_GET]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -46,7 +46,7 @@ export async function PATCH(
     const color = await updateColor(params.colorId, parsed.data)
     return NextResponse.json(color)
   } catch (error) {
-    console.log("[COLOR_PATCH]", error)
+    console.error("[COLOR_PATCH]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }
@@ -66,7 +66,7 @@ export async function DELETE(
     const color = await deleteColor(params.colorId)
     return NextResponse.json(color)
   } catch (error) {
-    console.log("[COLOR_DELETE]", error)
+    console.error("[COLOR_DELETE]", error)
     return errorResponse(API_ERRORS.INTERNAL, 500)
   }
 }

@@ -1,7 +1,7 @@
 import { KeyRound, Mail, Shield } from 'lucide-react'
 import React from 'react'
 
-const SecurityCardContent = () => {
+const SecurityForm = () => {
   return (
     <div>
       <div className='flex my-4 mt-0'>
@@ -22,4 +22,4 @@ const SecurityCardContent = () => {
   )
 }
 
-export default SecurityCardContent
+export default SecurityForm
